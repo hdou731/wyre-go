@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -8,10 +9,12 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", testHandler)
-	http.HandleFunc("/getTransfer", getTransfer)
+	r := mux.NewRouter()
 
-	http.ListenAndServe(":3000", nil)
+	r.HandleFunc("/", testHandler)
+	r.HandleFunc("/getTransfer/{transferToken}", getTransfer)
+
+	http.ListenAndServe(":3000", r)
 }
 
 func testHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,9 +23,28 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 
 func getTransfer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	key := vars["id"]
+	key := vars["transferToken"]
 
-	url := "https://api.testwyre.com/v3/transfers/TF_YFP9E9QZFCB"
+	url := fmt.Sprintf("https://api.testwyre.com/v3/transfers/%s", key)
+
+	req, _ := http.NewRequest("GET", url, nil)
+
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("Authorization", "Bearer SK-WUEY3J78-3FJBFVEM-MAZM7XHC-NGCW2G4F")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	w.Write(body)
+}
+
+func getWalletBalance(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	key := vars["walletToken"]
+
+	url := fmt.Sprintf("https://api.testwyre.com/v2/wallet/%s", key)
 
 	req, _ := http.NewRequest("GET", url, nil)
 
