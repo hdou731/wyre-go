@@ -3,12 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/hdou731/wyre-go/wyre"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -49,7 +49,7 @@ func createWallet(w http.ResponseWriter, r *http.Request) {
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 
-	var walletResponse CreateWalletResponse
+	var walletResponse wyre.CreateWalletResponse
 	json.Unmarshal(body, &walletResponse)
 
 	w.Write(body)
@@ -179,7 +179,7 @@ func getTransfer(w http.ResponseWriter, r *http.Request) {
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 
-	var walletResponse GetTransferResponse
+	var walletResponse wyre.GetTransferResponse
 	err := json.Unmarshal(body, &walletResponse)
 	if err != nil {
 		log.Println(err)
@@ -206,14 +206,3 @@ func getWallet(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(body)
 }
-
-//type CreateWalletResponse struct {
-//	id string
-//	srn string
-//}
-//
-//type GetTransferResponse struct {
-//	status string
-//	sourceCurrency string
-//	exchangeRate int
-//}
