@@ -84,28 +84,28 @@ func executeWalletOrderReservation(w http.ResponseWriter, r *http.Request) {
 
 	url := "https://api.testwyre.com/v3/debitcard/process/partner"
 
-	requestJson := fmt.Sprintf("{\"debitCard\":" +
-		"{\"number\":\"4111111111111111\"," +
-		"\"year\":\"2023\"," +
-		"\"month\":\"01\"," +
-		"\"cvv\":\"123\"}," +
-		"\"address\":" +
-			"{\"city\":\"Los Angeles\"," +
-			"\"state\":\"CA\"," +
-			"\"postalCode\":\"91423\"," +
-			"\"street1\":\"2000 E Madison St\"," +
-			"\"country\":\"US\"}," +
-		"\"reservationId\":\"%s\"," +
-		"\"amount\":\"100\"," +
-		"\"sourceCurrency\":\"USD\"," +
-		"\"destCurrency\":\"USDC\"," +
-		"\"dest\":\"wallet:WA_8FPWBHUXMWR\"," +
-		"\"referrerAccountId\":\"AC_NE6PC8GTUYT\"," +
-		"\"givenName\":\"Hellen\"," +
-		"\"familyName\":\"Bandicoot\"," +
-		"\"email\":\"fakey-fake@squareup.com\"," +
-		"\"phone\":\"8473343106\"," +
-		"\"ipAddress\":\"1.1.1.1\"," +
+	requestJson := fmt.Sprintf("{\"debitCard\":"+
+		"{\"number\":\"4111111111111111\","+
+		"\"year\":\"2023\","+
+		"\"month\":\"01\","+
+		"\"cvv\":\"123\"},"+
+		"\"address\":"+
+		"{\"city\":\"Los Angeles\","+
+		"\"state\":\"CA\","+
+		"\"postalCode\":\"91423\","+
+		"\"street1\":\"2000 E Madison St\","+
+		"\"country\":\"US\"},"+
+		"\"reservationId\":\"%s\","+
+		"\"amount\":\"100\","+
+		"\"sourceCurrency\":\"USD\","+
+		"\"destCurrency\":\"USDC\","+
+		"\"dest\":\"wallet:WA_8FPWBHUXMWR\","+
+		"\"referrerAccountId\":\"AC_NE6PC8GTUYT\","+
+		"\"givenName\":\"Hellen\","+
+		"\"familyName\":\"Bandicoot\","+
+		"\"email\":\"fakey-fake@squareup.com\","+
+		"\"phone\":\"8473343106\","+
+		"\"ipAddress\":\"1.1.1.1\","+
 		"\"referenceId\":\"AC_NE6PC8GTUYT\"}", key)
 	payload := strings.NewReader(requestJson)
 
@@ -129,24 +129,24 @@ func payout(w http.ResponseWriter, r *http.Request) {
 
 	url := "https://api.testwyre.com/v2/transfers"
 
-	requestJson := fmt.Sprintf("{" +
-		"\"autoConfirm\":true," +
-		"\"source\":\"wallet:WA_8FPWBHUXMWR\"," +
-		"\"sourceCurrency\":\"USDC\"," +
-		"\"destCurrency\":\"USD\"," +
-		"\"destAmount\":%s," +
-		"\"dest\":{" +
-			"\"paymentMethodType\":\"INTERNATIONAL_TRANSFER\"," +
-			"\"country\":\"US\"," +
-			"\"currency\":\"USD\"," +
-			"\"paymentType\":\"LOCAL_BANK_WIRE\"," +
-			"\"firstNameOnAccount\":\"Billy-Bob\"," +
-			"\"lastNameOnAccount\":\"Jones\"," +
-			"\"accountNumber\":\"0000000000000\"," +
-			"\"routingNumber\":\"0000000000\"," +
-			"\"accountType\":\"CHECKING\"," +
-			"\"bankName\":\"JP Morgan\"" +
-			"}}", key)
+	requestJson := fmt.Sprintf("{"+
+		"\"autoConfirm\":true,"+
+		"\"source\":\"wallet:WA_8FPWBHUXMWR\","+
+		"\"sourceCurrency\":\"USDC\","+
+		"\"destCurrency\":\"USD\","+
+		"\"destAmount\":%s,"+
+		"\"dest\":{"+
+		"\"paymentMethodType\":\"INTERNATIONAL_TRANSFER\","+
+		"\"country\":\"US\","+
+		"\"currency\":\"USD\","+
+		"\"paymentType\":\"LOCAL_BANK_WIRE\","+
+		"\"firstNameOnAccount\":\"Billy-Bob\","+
+		"\"lastNameOnAccount\":\"Jones\","+
+		"\"accountNumber\":\"0000000000000\","+
+		"\"routingNumber\":\"0000000000\","+
+		"\"accountType\":\"CHECKING\","+
+		"\"bankName\":\"JP Morgan\""+
+		"}}", key)
 	payload := strings.NewReader(requestJson)
 
 	req, _ := http.NewRequest("POST", url, payload)
